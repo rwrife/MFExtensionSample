@@ -3,7 +3,7 @@ const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlug
 const path = require('path');
 const deps = require('./package.json').dependencies;
 module.exports = {
-  entry: './src/index',
+  entry: './src/index.tsx',
   mode: 'development',
   devServer: {
     static: {
@@ -12,10 +12,15 @@ module.exports = {
     port: 3002,
   },
   output: {
-    publicPath: 'auto',
+    publicPath: 'auto'
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.m?js$/,
         type: 'javascript/auto',
@@ -33,18 +38,20 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   plugins: [
     new ModuleFederationPlugin({
       name: 'AuthExample',
       filename: 'remoteEntry.js',
       exposes: {
-        './engauth': './src/widget',
+        './engauth': './src/widget.tsx',
       },
       shared: [
         {
-          react: { singleton: true },
-          'react-dom': { singleton: true },
-          moment: { singleton: true },
+          react: { singleton: true, eager: true },
+          'react-dom': { singleton: true, eager: true },
         },
       ],
     }),
