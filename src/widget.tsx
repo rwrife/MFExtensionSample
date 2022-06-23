@@ -22,15 +22,21 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
       if (getAuthToken) {
         setAuthToken(await getAuthToken([scope], authority));
       }
-    } catch {
-      setAuthToken('error');
+    } catch (err) {
+      setAuthToken('error', err);
     }
   }, [getAuthToken]);
 
   const getNewToken = async () => {
     console.log('Fetching token', authority);
-    if (getAuthToken) {        
-      setAuthToken(await getAuthToken([scope], authority));
+    try {
+      if (getAuthToken) {
+        setAuthToken(await getAuthToken([scope], authority));
+      } else {
+        console.error('getAuthToken is not set');
+      }
+    } catch (err) {
+      setAuthToken('error', err);
     }
   }
 
@@ -81,14 +87,14 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
               <input className="ms-TextField-field field-244" value={authority} style={{ marginRight: '10px', width: '250px' }} onChange={e => setAuthority(e.target.value)} />
             </div>
           </div>
-        </div>        
+        </div>
       </div>
       <div style={{ display: 'flex', gap: '10px' }}>
         <div className="ms-TextField" style={{ maxWidth: '500px', display: 'flex', alignItems: 'flex-end' }}>
           <div className="ms-TextField-wrapper">
             <label className="ms-Label root-253">Auth Token</label>
             <div className="ms-TextField-fieldGroup fieldGroup-243">
-              <input className="ms-TextField-field field-244" value={authToken} style={{ marginRight: '10px',width: '400px' }} />
+              <input className="ms-TextField-field field-244" value={authToken} style={{ marginRight: '10px', width: '400px' }} />
             </div>
           </div>
         </div>
