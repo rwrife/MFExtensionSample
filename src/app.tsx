@@ -13,7 +13,7 @@ class App extends React.Component {
           height: '100%'
         }}>
           <h1>Sample Host Site</h1>
-          <MyPlugin getAuthToken={() => alert('msal is not available here')} />
+          <MyPlugin getAuthToken={() => console.log('msal is not available here')} />
         </div>
       </div>
     );

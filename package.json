@@ -15,7 +15,7 @@
     "webpack-dev-server": "4.8.1"
   },
   "scripts": {
-    "start": "webpack-cli serve",
+    "start": "webpack-cli serve --hot",
     "build": "webpack --mode development",
     "serve": "serve dist -p 3002",
     "clean": "rm -rf dist"
