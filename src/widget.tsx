@@ -78,7 +78,7 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
           <div className="ms-TextField-wrapper">
             <label className="ms-Label root-253">Authority</label>
             <div className="ms-TextField-fieldGroup fieldGroup-243">
-              <input className="ms-TextField-field field-244" value={scope} style={{ marginRight: '10px' }} onChange={e => setAuthority(e.target.value)} />
+              <input className="ms-TextField-field field-244" value={authority} style={{ marginRight: '10px' }} onChange={e => setAuthority(e.target.value)} />
             </div>
           </div>
         </div>        
