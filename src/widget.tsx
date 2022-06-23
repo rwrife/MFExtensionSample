@@ -17,9 +17,9 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   // EngineeringHub-MFDemo app scope api://3e98aa69-4e09-4821-bda5-4685901a7c36/Read
 
   useEffect(async () => {
+    console.log('Fetching token', authority);
     try {
       if (getAuthToken) {
-        setAuthToken('');
         setAuthToken(await getAuthToken([scope], authority));
       }
     } catch {
@@ -28,9 +28,9 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   }, [getAuthToken]);
 
   const getNewToken = async () => {
-    setAuthToken('');
+    console.log('Fetching token', authority);
     if (getAuthToken) {        
-      setAuthToken(await getAuthToken([scope]));
+      setAuthToken(await getAuthToken([scope], authority));
     }
   }
 
@@ -70,7 +70,7 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
           <div className="ms-TextField-wrapper">
             <label className="ms-Label root-253">Scope</label>
             <div className="ms-TextField-fieldGroup fieldGroup-243">
-              <input className="ms-TextField-field field-244" value={scope} style={{ marginRight: '10px' }} onChange={e => setScope(e.target.value)} />
+              <input className="ms-TextField-field field-244" value={scope} style={{ marginRight: '10px', width: '250px' }} onChange={e => setScope(e.target.value)} />
             </div>
           </div>
         </div>
@@ -78,17 +78,17 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
           <div className="ms-TextField-wrapper">
             <label className="ms-Label root-253">Authority</label>
             <div className="ms-TextField-fieldGroup fieldGroup-243">
-              <input className="ms-TextField-field field-244" value={authority} style={{ marginRight: '10px' }} onChange={e => setAuthority(e.target.value)} />
+              <input className="ms-TextField-field field-244" value={authority} style={{ marginRight: '10px', width: '250px' }} onChange={e => setAuthority(e.target.value)} />
             </div>
           </div>
         </div>        
       </div>
       <div style={{ display: 'flex', gap: '10px' }}>
-        <div className="ms-TextField" style={{ maxWidth: '400px', display: 'flex', alignItems: 'flex-end' }}>
+        <div className="ms-TextField" style={{ maxWidth: '500px', display: 'flex', alignItems: 'flex-end' }}>
           <div className="ms-TextField-wrapper">
             <label className="ms-Label root-253">Auth Token</label>
             <div className="ms-TextField-fieldGroup fieldGroup-243">
-              <input className="ms-TextField-field field-244" value={authToken} style={{ marginRight: '10px' }} />
+              <input className="ms-TextField-field field-244" value={authToken} style={{ marginRight: '10px',width: '400px' }} />
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
         <div className="ms-TextField-wrapper">
           <label className="ms-Label root-253">Server API GET Call</label>
           <div className="ms-TextField-fieldGroup fieldGroup-243">
-            <input className="ms-TextField-field field-244" onChange={e => setServer(e.target.value)} value={server} style={{ marginRight: '10px' }} />
+            <input className="ms-TextField-field field-244" onChange={e => setServer(e.target.value)} value={server} style={{ marginRight: '10px', width: '250px' }} />
           </div>
         </div>
         <button
@@ -113,11 +113,11 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
           onClick={() => fetchApi()}>Submit</button>
       </div>
 
-      <div className="ms-TextField" style={{ maxWidth: '400px', display: 'flex', alignItems: 'flex-end' }}>
+      <div className="ms-TextField" style={{ maxWidth: '500px', display: 'flex', alignItems: 'flex-end' }}>
         <div className="ms-TextField-wrapper">
           <label className="ms-Label root-253">Response</label>
           <div className="ms-TextField-fieldGroup fieldGroup-243">
-            <input className="ms-TextField-field field-244" value={JSON.stringify(apiResponse)} style={{ marginRight: '10px' }} />
+            <input className="ms-TextField-field field-244" value={JSON.stringify(apiResponse)} style={{ marginRight: '10px', width: '250px' }} />
           </div>
         </div>
       </div>
