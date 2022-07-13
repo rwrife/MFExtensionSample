@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 export interface IEngHubExtension {
   getAuthToken?: () => Promise<string>;
+  getUserInfo?: () => Promise<object>;
 }
 
 const Widget: React.PureComponent<IEngHubExtension> = ({
-  getAuthToken
+  getAuthToken,
+  getUserInfo
 }) => {
 
   const [apiResponse, setApiResponse] = useState();
@@ -13,6 +15,7 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   const [authToken, setAuthToken] = useState();
   const [scope, setScope] = useState('api://brainmanagement-onboarding-int/Onboarding.General');
   const [authority, setAuthority] = useState('https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47');
+  const [userInfo, setUserInfo] = useState();
 
   // EngineeringHub-MFDemo app scope api://3e98aa69-4e09-4821-bda5-4685901a7c36/Read
 
@@ -37,6 +40,12 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
       }
     } catch (err) {
       setAuthToken('error', err);
+    }
+  }
+
+  const getUser = async() => {
+    if(getUserInfo) {
+      setUserInfo(await getUserInfo());
     }
   }
 
@@ -117,6 +126,19 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
           className="ms-Button ms-Button--default fabric-button secondary-button root-254"
           style={{ marginLeft: '10px' }}
           onClick={() => fetchApi()}>Submit</button>
+      </div>
+
+      <div className="ms-TextField" style={{ maxWidth: '400px', display: 'flex', alignItems: 'flex-end' }}>
+        <div className="ms-TextField-wrapper">
+          <label className="ms-Label root-253">Get User Info</label>
+          <div className="ms-TextField-fieldGroup fieldGroup-243">
+            <input className="ms-TextField-field field-244" value={JSON.stringify(userInfo)} style={{ marginRight: '10px', width: '250px' }} />
+          </div>
+        </div>
+        <button
+          className="ms-Button ms-Button--default fabric-button secondary-button root-254"
+          style={{ marginLeft: '10px' }}
+          onClick={() => getUser()}>Submit</button>
       </div>
 
       <div className="ms-TextField" style={{ maxWidth: '500px', display: 'flex', alignItems: 'flex-end' }}>
