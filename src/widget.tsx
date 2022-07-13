@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 export interface IEngHubExtension {
   getAuthToken?: () => Promise<string>;
-  getUserInfo?: () => Promise<object>;
+  getUserInfo?: () => any;
 }
 
 const Widget: React.PureComponent<IEngHubExtension> = ({
@@ -44,6 +44,7 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   }
 
   const getUser = async() => {
+    console.log('getting user', getUserInfo);
     if(getUserInfo) {
       setUserInfo(await getUserInfo());
     }
