@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { ApplicationInsights, IEventTelemetry } from '@microsoft/applicationinsights-web'
 
 export interface IEngHubExtension {
   getAuthToken?: () => Promise<string>;
@@ -10,6 +11,20 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   getUserInfo
 }) => {
 
+  const appInsights = new ApplicationInsights({ config: {
+    connectionString: 'InstrumentationKey=4d8bec35-d4c8-4809-9312-2fdfe44d4b48;IngestionEndpoint=https://southcentralus-3.in.applicationinsights.azure.com/;LiveEndpoint=https://southcentralus.livediagnostics.monitor.azure.com/'
+  } });
+  appInsights.loadAppInsights();
+  appInsights.trackPageView(); 
+  var event = {name:'mf: app insights setup'} as IEventTelemetry;
+  appInsights.trackEvent(event);
+
+  var telemetryInitializer = (envelope) => {
+    envelope.data.someField = 'module federation demo';
+  };
+  appInsights.addTelemetryInitializer(telemetryInitializer);
+  appInsights.trackTrace({message: 'sample widget trace event'});
+
   const [apiResponse, setApiResponse] = useState();
   const [server, setServer] = useState('https://engineeringhub-api-demo.azurewebsites.net/api/applicationSettings');
   const [authToken, setAuthToken] = useState();
@@ -20,6 +35,8 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   // EngineeringHub-MFDemo app scope api://3e98aa69-4e09-4821-bda5-4685901a7c36/Read
 
   useEffect(async () => {
+    var event = {name:'mf: fetching token'} as IEventTelemetry;
+    appInsights.trackEvent(event);
     console.log('Fetching token', authority);
     try {
       if (getAuthToken) {
@@ -31,6 +48,8 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   }, [getAuthToken]);
 
   const getNewToken = async () => {
+    var event = {name:'mf: fetching token'} as IEventTelemetry;
+    appInsights.trackEvent(event);
     console.log('Fetching token', authority);
     try {
       if (getAuthToken) {
@@ -44,6 +63,8 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   }
 
   const getUser = async() => {
+    var event = {name:'mf: getting user'} as IEventTelemetry;
+    appInsights.trackEvent(event);    
     console.log('getting user', getUserInfo);
     if(getUserInfo) {
       setUserInfo(await getUserInfo());
@@ -51,6 +72,8 @@ const Widget: React.PureComponent<IEngHubExtension> = ({
   }
 
   const fetchApi = () => {
+    var event = {name:'mf: fetch api'} as IEventTelemetry;
+    appInsights.trackEvent(event);
     if (authToken) {
       const reqOpt = {
         method: 'GET',
